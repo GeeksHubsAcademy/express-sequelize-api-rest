@@ -1,6 +1,6 @@
 
 @baseUrl =http://localhost:3000
-@authorization = Bearer {{login.response.body.access_token}}
+@authorization = Bearer {{login.response.body.token}}
 
 
 ### REGISTER
@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 
-###  Albaran id
-GET {{baseUrl}}/albaran/4/centro/2
+###
+GET {{baseUrl}}/auth/logout
 Accept: application/json
 Authorization: {{authorization}}

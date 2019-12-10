@@ -1,11 +1,18 @@
 var express = require('express');
-var router = express.Router();
+const {
+  authorizationMiddleware,
+} = require('../middlewares/auth');
 
-const {registerController, loginController, recoveryController} = require('../controllers/auth.js')
+var router = express.Router();
+const {
+  registerController,
+  loginController,
+  logoutController,
+} = require('../controllers/auth.js');
 
 /* GET users listing. */
 router.post('/register', registerController);
 router.post('/login', loginController);
-router.post('/recovery', recoveryController);
+router.get('/logout', authorizationMiddleware, logoutController);
 
 module.exports = router;

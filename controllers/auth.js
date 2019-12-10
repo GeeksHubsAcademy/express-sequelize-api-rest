@@ -58,16 +58,16 @@ async function loginController(req, res, next) {
     const data = {
       username: user.username,
       email: user.email,
-    //   token: user.token,
       id: user.id,
     };
     user.token = await createJWT(data);
     await  user.save();
-    data.token = user.token;
+
 
     res.json({
       message: 'valid login',
       user: data,
+      token: user.token
     });
   } catch (error) {
       console.error(error);
@@ -78,12 +78,20 @@ async function loginController(req, res, next) {
   }
 }
 
-function recoveryController(req, res, next) {
-  res.send('recovery endpoint');
+async function logoutController(req, res, next) {
+  try {
+       const user = await User.findByPk(req.user.id);
+        user.token = null;
+       await user.save();
+       res.json({message:'logout done'});
+  } catch (error) {
+      console.log('error', error)
+      res.status(500).json({message: 'ups'})
+  }
 }
 
 module.exports = {
   registerController,
   loginController,
-  recoveryController,
+  logoutController,
 };
