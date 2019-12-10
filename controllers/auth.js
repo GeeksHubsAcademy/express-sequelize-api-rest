@@ -1,9 +1,11 @@
 const { User } = require('../models');
 const { isValidPassword } = require('../services/validations');
+const { hashPassword } = require('../services/bcrypt.js');
 
 async function registerController(req, res, next) {
   try {
     isValidPassword(req.body.password);
+    req.body.password = await hashPassword(req.body.password);
     const user = await User.create(req.body);
     res.status(200).json({
       message: 'register done',
@@ -30,8 +32,8 @@ async function registerController(req, res, next) {
         error: error.errors[0].message,
       });
     }
-    res.status(400).json({
-      message: 'register invalid',
+    res.status(500).json({
+      message: 'register not done',
       error: error,
     });
   }
