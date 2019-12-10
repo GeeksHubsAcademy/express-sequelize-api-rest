@@ -1,0 +1,36 @@
+
+@baseUrl =http://localhost:3000
+@authorization = Bearer {{login.response.body.access_token}}
+
+
+### REGISTER
+# @name register
+POST {{baseUrl}}/auth/register
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "EMIAL@asEMAIL.COM",
+    "password": "",
+    "username":"Juan2"
+}
+
+
+
+### LOGIN
+# @name login
+POST {{baseUrl}}/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "EMIAL@EMAIL.COM",
+    "password": "PASS",
+    "remember_me": false
+}
+
+
+###  Albaran id
+GET {{baseUrl}}/albaran/4/centro/2
+Accept: application/json
+Authorization: {{authorization}}

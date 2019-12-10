@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
     },
-    {},
   );
 //   User.associate = models => {
 //     User.hasOne(models.User, {
