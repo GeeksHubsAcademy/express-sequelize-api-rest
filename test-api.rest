@@ -24,9 +24,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "EMIAL@EMAIL.COM",
-    "password": "PASS",
-    "remember_me": false
+    "email": "juan2@geekshubs.om",
+    "password": "qwerty:A12"
 }
 
 

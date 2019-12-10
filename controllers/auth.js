@@ -1,6 +1,10 @@
 const { User } = require('../models');
 const { isValidPassword } = require('../services/validations');
-const { hashPassword } = require('../services/bcrypt.js');
+const {
+  hashPassword,
+  comparePassword,
+  createJWT
+} = require('../services/authorization');
 
 async function registerController(req, res, next) {
   try {
@@ -12,7 +16,7 @@ async function registerController(req, res, next) {
       user: user,
     });
   } catch (error) {
-      console.log(error);
+    console.log(error);
 
     if (error.message === 'invalidPasswordError') {
       return res.status(400).json({
@@ -39,8 +43,39 @@ async function registerController(req, res, next) {
   }
 }
 
-function loginController(req, res, next) {
-  res.send('login endpoint');
+async function loginController(req, res, next) {
+  try {
+    const user = await User.findOne({
+      where: { email: req.body.email },
+    });
+    if (!user) throw new Error('no user');
+    const isValidPassword = await comparePassword(
+      req.body.password,
+      user.password,
+    );
+    if (!isValidPassword) throw new Error('no valid password');
+
+    const data = {
+      username: user.username,
+      email: user.email,
+    //   token: user.token,
+      id: user.id,
+    };
+    user.token = await createJWT(data);
+    await  user.save();
+    data.token = user.token;
+
+    res.json({
+      message: 'valid login',
+      user: data,
+    });
+  } catch (error) {
+      console.error(error);
+
+    res.status(401).json({
+      message: 'login invalid',
+    });
+  }
 }
 
 function recoveryController(req, res, next) {
