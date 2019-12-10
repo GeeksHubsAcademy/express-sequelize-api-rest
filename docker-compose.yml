@@ -1,0 +1,13 @@
+version: '3.4'
+services:
+  geekshubs_bd:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: demo
+      MYSQL_USER: test
+      MYSQL_PASSWORD: 123456
+    volumes:
+      - ./db:/var/lib/mysql
+    ports:
+      - "3306:3306"
