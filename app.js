@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/orders', authorizationMiddleware, ordersRouter);
+app.use('/order', authorizationMiddleware, ordersRouter);
 app.use('/auth', authRouter);
 
 module.exports = app;

@@ -33,3 +33,18 @@ Content-Type: application/json
 GET {{baseUrl}}/auth/logout
 Accept: application/json
 Authorization: {{authorization}}
+
+
+
+
+
+###
+POST {{baseUrl}}/order/
+Content-type: application/json
+Accept: application/json
+Authorization: {{authorization}}
+
+{
+    "totalPrice":  120,
+    "products": [1,1,2,3]
+}
