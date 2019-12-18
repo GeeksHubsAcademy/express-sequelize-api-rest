@@ -8,8 +8,12 @@ module.exports = (sequelize, DataTypes) => {
     Category.belongsTo(models.Product);
 
   };
-   Category.sync().catch(error =>
-     console.error(`couldn't connect to database`, error),
-   );
+   Category.sync()
+     .then(() => {
+       console.log('sync category');
+     })
+     .catch(error =>
+       console.error(`couldn't connect to database`, error),
+     );
   return Category;
 };

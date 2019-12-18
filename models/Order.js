@@ -10,11 +10,18 @@ module.exports = (sequelize, DataTypes) => {
   );
   Order.associate = function(models) {
     // associations can be defined here
-    Order.hasMany(models.Product);
+    Order.belongsToMany(models.Product, {
+      through: 'order_product',
+    });
     Order.hasOne(models.User);
+    Order.sync()
+      .then(() => {
+        console.log('sync order');
+      })
+      .catch(error =>
+        console.error(`couldn't connect to database`, error),
+      );
   };
-  Order.sync().catch(error =>
-    console.error(`couldn't connect to database`, error),
-  );
+
   return Order;
 };

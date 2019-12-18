@@ -21,10 +21,15 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   User.associate = models => {
-    User.hasMany(models.Order);
+    User.belongsTo(models.Order);
   };
-  User.sync().catch(error =>
-    console.error(`couldn't connect to database`, error),
-  );
+
+  User.sync()
+    .then(() => {
+      console.log('sync user');
+    })
+    .catch(error =>
+      console.error(`couldn't connect to database`, error),
+    );
   return User;
 };

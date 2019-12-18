@@ -19,9 +19,14 @@ module.exports = (sequelize, DataTypes) => {
   Product.associate = function(models) {
     Product.hasOne(models.Category);
     Product.belongsToMany(models.Order, {through: 'order_product'});
+    Product.sync()
+      .then(() => {
+        console.log('sync product');
+      })
+      .catch(error =>
+        console.error(`couldn't connect to database`, error),
+      );
   };
-  Product.sync().catch(error =>
-    console.error(`couldn't connect to database`, error),
-  );
+
   return Product;
 };
