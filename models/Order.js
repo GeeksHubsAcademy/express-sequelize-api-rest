@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     'Order',
     {
       status: DataTypes.STRING,
+      // userId: DataTypes.INTEGER,
       totalPrice: DataTypes.FLOAT,
     },
     {},
@@ -13,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     Order.belongsToMany(models.Product, {
       through: 'order_product',
     });
-    Order.hasOne(models.User);
+    Order.belongsTo(models.User);
     Order.sync()
       .then(() => {
         console.log('sync order');
