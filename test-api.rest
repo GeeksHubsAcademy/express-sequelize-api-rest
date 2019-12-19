@@ -1,5 +1,5 @@
 
-@baseUrl =http://localhost:3000
+@baseUrl =http://localhost:4000
 @authorization = Bearer {{login.response.body.token}}
 
 
@@ -35,6 +35,24 @@ Accept: application/json
 Authorization: {{authorization}}
 
 
+
+
+
+###
+get {{baseUrl}}/order/
+Content-type: application/json
+Accept: application/json
+Authorization: {{authorization}}
+
+
+
+
+
+###
+get {{baseUrl}}/order/1
+Content-type: application/json
+Accept: application/json
+Authorization: {{authorization}}
 
 
 

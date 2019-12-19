@@ -4,12 +4,36 @@ const Op = Sequelize.Op;
 
 async function getAll(req, res, next) {
   try {
-  } catch (error) {}
+    const orders = await Order.findAll(
+      {
+        include: [Product]
+      },
+
+      // {include: [{model:Product}], as: 'products'}
+    );
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json(error);
+
+  }
 }
 
 async function getOne(req, res, next) {
   try {
-  } catch (error) {}
+    const orders = await Order.findAll(
+      {
+        where: {id: req.params.id},
+        include: [Product],
+      },
+
+      // {include: [{model:Product}], as: 'products'}
+    );
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json(error);
+  }
 }
 
 async function insert(req, res, next) {
@@ -19,29 +43,23 @@ async function insert(req, res, next) {
     const products = await Product.findAll({
       where: {
         id: {
-          [Op.or]: body.products,
+          [Op.in]: body.products,
         },
       },
     });
+    // const allProducts = body.products.map(id => {
+    //   return products.find(p => p.id === id);
+    // });
     const order = await Order.create({
-        UserId: req.user.id,
-        status:'complete',
-        totalPrice: req.body.totalPrice
-
-    })
-    const allProducts = body.products.map(id => {
-      return products.find(p => p.id === id);
+      UserId: req.user.id,
+      status: 'complete',
+      totalPrice: req.body.totalPrice,
     });
-    console.log(allProducts);
+    await order.addProducts(products);
 
-    order.addProducts(allProducts);
-
-
-
-
-    res.json(products);
+    res.json(order);
   } catch (error) {
-      res.status(500).send('ups')
+    res.status(500).json(error);
   }
 }
 

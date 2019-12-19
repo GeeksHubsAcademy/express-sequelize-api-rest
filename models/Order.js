@@ -10,9 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     {},
   );
   Order.associate = function(models) {
-    // associations can be defined here
     Order.belongsToMany(models.Product, {
       through: 'order_product',
+      as:'products'
+
     });
     Order.belongsTo(models.User);
     Order.sync()
